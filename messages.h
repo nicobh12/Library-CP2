@@ -16,6 +16,8 @@ void listar(const char* str);
 
 FILE* openFileR(const char* filename);
 FILE* openFileA(const char* filename);
+FILE* openFileW(const char* filename);
+
 
 const char* genreToString(genre g);
 

@@ -37,6 +37,16 @@ FILE* openFileA(const char* filename) {
     return file;  // Return the file pointer on success
 }
 
+FILE* openFileW(const char* filename) {
+    FILE* file = fopen(filename, "wb");  // Open binary file
+    if (file == NULL) {
+        printf("%s",fileOpenError);
+        return NULL;  // Return NULL to indicate failure
+    }
+    return file;  // Return the file pointer on success
+}
+
+
 const char* genreToString(genre g) {
     switch (g) {
         case FICTION: return "Fiction";
