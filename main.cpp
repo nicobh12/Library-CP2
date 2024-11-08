@@ -7,7 +7,8 @@ int main(){
     const char* Fbooks = "books.dat";
     const char* FObs = "obs.dat";
 
-    bool logged = false;
+    int id = 0;
+    bool admin = false;
 
     
     return 0;

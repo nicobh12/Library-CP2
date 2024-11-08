@@ -27,6 +27,7 @@ typedef struct {
     char name[20];
     char lname[40];
     int adminId;
+    char pass[50];
 } admin;
 
 typedef struct {
@@ -38,10 +39,12 @@ typedef struct {
     char name[20];
     char lname[40];
     int id;
+    char mail[50];
     book borrowed1;
     book borrowed2;
     bool blocked;
     int owed;
+    char pass[50];
 } user;
 
 typedef struct {

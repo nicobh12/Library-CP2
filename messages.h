@@ -1,0 +1,27 @@
+#ifndef MESSAGES_H
+#define MESSAGES_H
+
+#include <cstdio>
+
+//Mensajes generales
+const char* fileOpenError = "\nError de validación o al abrir el archivo\n";
+
+//Mensajes para la validacion de inicio de sesion y acciones en login.cpp
+const char* loggedSuccessfully = "\nSe inició sesión de manera exitosa\n";
+const char* nLoggedSuccessfully = "\nHubo un error al iniciar sesión\n";
+
+const char* signInSuccessfully = "\nEl registro se realizó con éxito\n";
+const char* nSignInSuccessfully = "\nNo se pudo realizar el registro\n";
+
+//Operación para abrir archivos
+FILE* openFile(const char* filename) {
+    FILE* file = fopen(filename, "rb");  // Open binary file
+    if (file == NULL) {
+        printf("%s",fileOpenError);
+        return NULL;  // Return NULL to indicate failure
+    }
+    return file;  // Return the file pointer on success
+}
+
+
+#endif
