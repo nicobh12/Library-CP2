@@ -2,6 +2,7 @@
 #define MESSAGES_H
 
 #include <cstdio>
+#include "structs.h"
 
 //Mensajes generales
 const char* fileOpenError = "\nError de validación o al abrir el archivo\n";
@@ -34,6 +35,22 @@ FILE* openFileA(const char* filename) {
         return NULL;  // Return NULL to indicate failure
     }
     return file;  // Return the file pointer on success
+}
+
+const char* genreToString(genre g) {
+    switch (g) {
+        case FICTION: return "Fiction";
+        case NON_FICTION: return "Non-Fiction";
+        case MYSTERY: return "Mystery";
+        case FANTASY: return "Fantasy";
+        case SCIENCE_FICTION: return "Science Fiction";
+        case BIOGRAPHY: return "Biography";
+        case HISTORY: return "History";
+        case POETRY: return "Poetry";
+        case YOUNG_ADULT: return "Young Adult";
+        case OTHER: return "Other";
+        default: return "Unknown";  // This handles any out-of-range values (e.g., if there's a bug)
+    }
 }
 
 

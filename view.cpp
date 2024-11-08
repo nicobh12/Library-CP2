@@ -43,11 +43,61 @@ void viewAllUsers() {
     viewBlockedUsers();  
 }
 
+void viewBorrows(bool isAdmin) {
+    FILE* file = openFileR("books.dat");
 
-void viewAllBooks(const char* filename);
+    infoBooks currentBook;
+    listar("libros no disponibles");
 
-void viewBorrows(const char* filename);
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (currentBook.available == 0) {
+            printf("ID: %d\nTítulo: %s\nAutor: %s\nGénero: %d\nPrestados: %d\n\n",
+                   currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g), currentBook.total);
 
-void availableBooks(const char* filename);
+            // Si es administrador, muestra quiénes han prestado el libro
+            if (isAdmin && currentBook.borrows != nullptr) {
+                printf("Usuarios que prestaron el libro:\n");
+                for (int i = 0; i < currentBook.total; i++) {
+                    printf("ID Usuario: %d, Nombre: %s %s\n",
+                           currentBook.borrows[i].id, currentBook.borrows[i].name, currentBook.borrows[i].lname);
+                }
+                printf("\n");
+            }
+        }
+    }
+}
+
+void availableBooks(bool isAdmin) {
+    FILE* file = openFileR("books.dat");
+
+    infoBooks currentBook;
+    listar("libros disponibles");
+
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (currentBook.available > 0) {
+            printf("ID: %d\nTítulo: %s\nAutor: %s\nGénero: %d\nDisponibles: %d de %d\n\n",
+                   currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g),
+                   currentBook.available, currentBook.total);
+
+            // Si es administrador, muestra quiénes tienen el libro en préstamo
+            if (isAdmin && currentBook.available != currentBook.total && currentBook.borrows != nullptr) {
+                printf("Usuarios que tienen el libro en préstamo:\n");
+                for (int i = 0; i < currentBook.total - currentBook.available; i++) {
+                    printf("ID Usuario: %d, Nombre: %s %s\n",
+                           currentBook.borrows[i].id, currentBook.borrows[i].name, currentBook.borrows[i].lname);
+                }
+                printf("\n");
+            }
+        }
+    }
+}
+
+// Muestra todos los libros, incluyendo prestados y disponibles
+void viewAllBooks(bool isAdmin) {
+
+    listar("todos los libros");
+    availableBooks(isAdmin);
+    viewBorrows(isAdmin);
+}
 
 void viewAdmins(const char* filename);
