@@ -65,6 +65,9 @@ void viewBorrows(bool isAdmin) {
             }
         }
     }
+
+    fclose(file);
+
 }
 
 void availableBooks(bool isAdmin) {
@@ -90,6 +93,9 @@ void availableBooks(bool isAdmin) {
             }
         }
     }
+
+    fclose(file);
+
 }
 
 // Muestra todos los libros, incluyendo prestados y disponibles
@@ -100,4 +106,60 @@ void viewAllBooks(bool isAdmin) {
     viewBorrows(isAdmin);
 }
 
-void viewAdmins(const char* filename);
+void viewUserInfo(int id) {
+    FILE* file = openFileR("usuarios.dat");
+    user currentUser;
+
+    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
+        if (currentUser.id == id) {
+            printf("Información del Usuario:\n");
+            printf("Nombre: %s %s\n", currentUser.name, currentUser.lname);
+            printf("Correo: %s\n", currentUser.mail);
+            printf("ID: %d\n", currentUser.id);
+            printf("Owed: %d\n", currentUser.owed);
+            // Add borrowed books' due dates
+            if (currentUser.borrowed1.b.title[0] != '\0') {
+                printf("Libro 1: %s\n", currentUser.borrowed1.b.title);
+                printf("Fecha de vencimiento: %d/%d/%d\n", currentUser.borrowed1.dueDate.day, currentUser.borrowed1.dueDate.month, currentUser.borrowed1.dueDate.year);
+            }
+            if (currentUser.borrowed2.b.title[0] != '\0') {
+                printf("Libro 2: %s\n", currentUser.borrowed2.b.title);
+                printf("Fecha de vencimiento: %d/%d/%d\n", currentUser.borrowed2.dueDate.day, currentUser.borrowed2.dueDate.month, currentUser.borrowed2.dueDate.year);
+            }
+            break;
+        }
+    }
+
+    fclose(file);
+}
+
+void viewAdminInfo(int adminId) {
+    FILE* file = openFileR("admins.dat");
+    admin currentAdmin;
+
+    while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
+        if (currentAdmin.adminId == adminId) {
+            printf("Información del Administrador:\n");
+            printf("Nombre: %s %s\n", currentAdmin.name, currentAdmin.lname);
+            printf("ID Admin: %d\n", currentAdmin.adminId);
+            break;
+        }
+    }
+
+    fclose(file);
+}
+
+
+void viewAdmins(){
+    FILE* file = openFileR("admins.dat");
+    admin currentAdmin;
+
+    listar("administradores");
+
+    while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
+        printf("Nombre: %s %s\n", currentAdmin.name, currentAdmin.lname);
+        printf("ID Admin: %d\n", currentAdmin.adminId);
+    }
+
+    fclose(file);
+}
