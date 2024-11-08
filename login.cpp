@@ -1,5 +1,6 @@
 #include "structs.h"
 #include "messages.h"
+#include "encrypt.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>  
@@ -9,8 +10,14 @@ int loginUser(char *key, char *pass) {
     int id = 0;
     user currentUser;
 
+    char decryptedPass[50];
+
     while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (strcmp(key, currentUser.mail) == 0 && strcmp(pass, currentUser.pass) == 0) {
+        // Desencriptamos la contraseña almacenada
+        decrypt_password(currentUser.pass, decryptedPass);
+
+        // Comparamos el correo y la contraseña desencriptada
+        if (strcmp(key, currentUser.mail) == 0 && strcmp(decryptedPass, pass) == 0) {
             id = currentUser.id;
             break;
         }
@@ -25,23 +32,28 @@ int loginAdmin(char *key, char *pass) {
     int id = 0;
     admin currentAdmin;
 
-    int adminId = atoi(key); 
+    int adminId = atoi(key); // Convertir el key a un int para comparar con adminId
+
+    char decryptedPass[50];  // Para almacenar la contraseña desencriptada
 
     while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
-        if (adminId == currentAdmin.adminId && strcmp(pass, currentAdmin.pass) == 0) {
+        // Desencriptamos la contraseña almacenada
+        decrypt_password(currentAdmin.pass, decryptedPass);
+
+        // Comparamos el adminId y la contraseña desencriptada
+        if (adminId == currentAdmin.adminId && strcmp(decryptedPass, pass) == 0) {
             id = currentAdmin.adminId;
             break;
         }
     }
 
-    fclose(file); 
+    fclose(file);
     return id;
 }
 
-
 void login(char *key, char *pass, bool isAdmin, int &id, bool &admin) {
     if (isAdmin) {
-        id = loginAdmin(key, pass);  
+        id = loginAdmin(key, pass);
         admin = true;
     } else {
         id = loginUser(key, pass);
@@ -52,21 +64,24 @@ void login(char *key, char *pass, bool isAdmin, int &id, bool &admin) {
 user userNewData() {
     user newUser;
 
-    printf("Ingrese el nombre del usuario: ");
+    printf("\nIngrese el nombre del usuario: \n");
     scanf("%s", newUser.name);
 
-    printf("Ingrese el apellido del usuario: ");
+    printf("\nIngrese el apellido del usuario: \n");
     scanf("%s", newUser.lname);
 
-    printf("Ingrese el correo electrónico del usuario: ");
+    printf("\nIngrese el correo electrónico del usuario: \n");
     scanf("%s", newUser.mail);
 
-    printf("Ingrese la contraseña del usuario: ");
+    printf("\nIngrese la contraseña del usuario: \n");
     scanf("%s", newUser.pass);
+
+    // Encriptamos la contraseña antes de almacenarla
+    encrypt_password(newUser.pass, newUser.pass);  // Usamos el mismo campo 'pass' para almacenar la contraseña encriptada
 
     newUser.blocked = false;
     newUser.owed = 0;
-    newUser.borrowed1 = {};
+    newUser.borrowed1 = {}; 
     newUser.borrowed2 = {};
 
     return newUser;
@@ -75,14 +90,17 @@ user userNewData() {
 admin adminNewData() {
     admin newAdmin;
 
-    printf("Ingrese el nombre del administrador: ");
+    printf("\nIngrese el nombre del administrador: \n");
     scanf("%s", newAdmin.name);
 
-    printf("Ingrese el apellido del administrador: ");
+    printf("\nIngrese el apellido del administrador: \n");
     scanf("%s", newAdmin.lname);
 
-    printf("Ingrese la contraseña del administrador: ");
+    printf("\nIngrese la contraseña del administrador: \n");
     scanf("%s", newAdmin.pass);
+
+    // Encriptamos la contraseña antes de almacenarla
+    encrypt_password(newAdmin.pass, newAdmin.pass);  // Usamos el mismo campo 'pass' para almacenar la contraseña encriptada
 
     return newAdmin;
 }
@@ -140,7 +158,7 @@ int signInAdmin() {
     return newAdmin.adminId;
 }
 
-int signIn(bool isAdmin, int &id){
+int signIn(bool isAdmin, int &id) {
     int a = 0;
     if (isAdmin) {
         a = signInAdmin();
@@ -149,11 +167,9 @@ int signIn(bool isAdmin, int &id){
     }
 
     if (a != 0 || id != 0)
-    printf("%s", signInSuccessfully);
+        printf("%s", signInSuccessfully);
     else
-    printf("%s", nSignInSuccessfully);
+        printf("%s", nSignInSuccessfully);
 
     return id;
 };
-
-void encryptPass(const char* filename, char* pass);
