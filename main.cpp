@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
+#include "login.h"
+#include "view.h"
 
 int main(){
     const char* Fusers = "users.dat";
@@ -10,7 +12,8 @@ int main(){
     int id = 0;
     bool admin = false;
 
-    
+    viewAllUsers();
+    printf("%d", id);
     return 0;
 
 }

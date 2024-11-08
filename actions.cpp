@@ -1,6 +1,6 @@
 #include "structs.h"
 
-void blockUnblockUser(const char* filename);
+void blockUnblockUser();
 
-void payUp(const char* filename);
+void payUp(int id);
 

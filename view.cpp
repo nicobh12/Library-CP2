@@ -82,7 +82,6 @@ void availableBooks(bool isAdmin) {
                    currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g),
                    currentBook.available, currentBook.total);
 
-            // Si es administrador, muestra quiénes tienen el libro en préstamo
             if (isAdmin && currentBook.available != currentBook.total && currentBook.borrows != nullptr) {
                 printf("Usuarios que tienen el libro en préstamo:\n");
                 for (int i = 0; i < currentBook.total - currentBook.available; i++) {
@@ -160,6 +159,8 @@ void viewAdmins(){
         printf("Nombre: %s %s\n", currentAdmin.name, currentAdmin.lname);
         printf("ID Admin: %d\n", currentAdmin.adminId);
     }
+
+    printf("%d", file);
 
     fclose(file);
 }

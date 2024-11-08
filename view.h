@@ -1,0 +1,3 @@
+void viewAdmins();
+
+void viewAllUsers();

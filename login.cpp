@@ -59,10 +59,17 @@ void login(char *key, char *pass, bool isAdmin, int &id, bool &admin) {
         id = loginUser(key, pass);
         admin = false;
     }
+
+    if(id != 0)
+    printf("%s", loggedSuccessfully);
+    else
+    printf("%s", nLoggedSuccessfully);
 }
 
 user userNewData() {
     user newUser;
+
+    char pass[50];
 
     printf("\nIngrese el nombre del usuario: \n");
     scanf("%s", newUser.name);
@@ -74,10 +81,9 @@ user userNewData() {
     scanf("%s", newUser.mail);
 
     printf("\nIngrese la contraseña del usuario: \n");
-    scanf("%s", newUser.pass);
+    scanf("%s", pass);
 
-    // Encriptamos la contraseña antes de almacenarla
-    encrypt_password(newUser.pass, newUser.pass);  // Usamos el mismo campo 'pass' para almacenar la contraseña encriptada
+    encrypt_password(pass ,newUser.pass);  // Usamos el arreglo de long long para almacenar la contraseña encriptada
 
     newUser.blocked = false;
     newUser.owed = 0;
@@ -87,8 +93,10 @@ user userNewData() {
     return newUser;
 }
 
+
 admin adminNewData() {
     admin newAdmin;
+    char pass[50];
 
     printf("\nIngrese el nombre del administrador: \n");
     scanf("%s", newAdmin.name);
@@ -97,10 +105,11 @@ admin adminNewData() {
     scanf("%s", newAdmin.lname);
 
     printf("\nIngrese la contraseña del administrador: \n");
-    scanf("%s", newAdmin.pass);
+    scanf("%s", pass);
 
-    // Encriptamos la contraseña antes de almacenarla
-    encrypt_password(newAdmin.pass, newAdmin.pass);  // Usamos el mismo campo 'pass' para almacenar la contraseña encriptada
+    /// Encriptamos la contraseña antes de almacenarla
+    long long encryptedPass[50];
+    encrypt_password(pass, newAdmin.pass);  // Usamos el arreglo de long long para almacenar la contraseña encriptada
 
     return newAdmin;
 }
