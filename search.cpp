@@ -84,14 +84,125 @@ void searchUser(){
     searchUserByLName(search);
 }
 
-void searchBook(const char* filename);
+void saveAndDisplayBook(FILE* file, const book& foundBook) {
+    fwrite(&foundBook, sizeof(book), 1, file);
+    printf("Título: %s\nAutor: %s\nGénero: %d\nAño de Publicación: %d\n\n",
+           foundBook.title, foundBook.author, foundBook.g, foundBook.pYear);
+}
 
-void searchBookById(const char* filename);
+void searchBookById(int id) {
+    FILE* file = openFileR("books.dat");
+    FILE* searchFile = openFileW("searchBooks.dat");
+    if (!file || !searchFile) return;
 
-void searchBookByTitle(const char* filename);
+    infoBooks currentBook;
+    bool found = false;
+    printf("\n--- Búsqueda por ID ---\n");
 
-void searchBookByAuthor(const char* filename);
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (currentBook.id == id) {
+            saveAndDisplayBook(searchFile, currentBook.b);
+            found = true;
+        }
+    }
+    if (!found) printf("No se encontró un libro con ID: %d\n", id);
 
-void searchBookByGenre(const char* filename);
+    fclose(file);
+    fclose(searchFile);
+}
 
-void searchBookByPYear(const char* filename);
+void searchBookByTitle(const char* title) {
+    FILE* file = openFileR("books.dat");
+    FILE* searchFile = openFileW("searchBooks.dat");
+    if (!file || !searchFile) return;
+
+    infoBooks currentBook;
+    bool found = false;
+    printf("\n--- Búsqueda por Título ---\n");
+
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (strcmp(currentBook.b.title, title) == 0) {
+            saveAndDisplayBook(searchFile, currentBook.b);
+            found = true;
+        }
+    }
+    if (!found) printf("No se encontró un libro con el título: %s\n", title);
+
+    fclose(file);
+    fclose(searchFile);
+}
+
+void searchBookByAuthor(const char* author) {
+    FILE* file = openFileR("books.dat");
+    FILE* searchFile = openFileW("searchBooks.dat");
+    if (!file || !searchFile) return;
+
+    infoBooks currentBook;
+    bool found = false;
+    printf("\n--- Búsqueda por Autor ---\n");
+
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (strcmp(currentBook.b.author, author) == 0) {
+            saveAndDisplayBook(searchFile, currentBook.b);
+            found = true;
+        }
+    }
+    if (!found) printf("No se encontró un libro del autor: %s\n", author);
+
+    fclose(file);
+    fclose(searchFile);
+}
+
+/* void searchBookByGenre(genre g) {
+    FILE* file = openFileR("books.dat");
+    FILE* searchFile = openFileW("searchBooks.dat");
+    if (!file || !searchFile) return;
+
+    infoBooks currentBook;
+    bool found = false;
+    printf("\n--- Búsqueda por Género ---\n");
+
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (currentBook.b.g == g) {
+            saveAndDisplayBook(searchFile, currentBook.b);
+            found = true;
+        }
+    }
+    if (!found) printf("No se encontraron libros del género especificado.\n");
+
+    fclose(file);
+    fclose(searchFile);
+}
+ */
+
+void searchBookByPYear(int year) {
+    FILE* file = openFileR("books.dat");
+    FILE* searchFile = openFileW("searchBooks.dat");
+    if (!file || !searchFile) return;
+
+    infoBooks currentBook;
+    bool found = false;
+    printf("\n--- Búsqueda por Año de Publicación ---\n");
+
+    while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
+        if (currentBook.b.pYear == year) {
+            saveAndDisplayBook(searchFile, currentBook.b);
+            found = true;
+        }
+    }
+    if (!found) printf("No se encontró un libro publicado en el año: %d\n", year);
+
+    fclose(file);
+    fclose(searchFile);
+}
+
+void searchBook(){
+    char search[50];
+
+    int p = atoi(search);
+
+    searchBookById(p);
+    searchBookByTitle(search);
+    searchBookByAuthor(search);
+    searchBookByPYear(p);
+}
