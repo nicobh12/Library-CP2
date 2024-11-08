@@ -6,7 +6,7 @@
 #include <cstdlib>  
 
 int loginUser(char *key, char *pass) {
-    FILE *file = openFile("usuarios.dat");
+    FILE *file = openFileR("usuarios.dat");
     int id = 0;
     user currentUser;
 
@@ -28,7 +28,7 @@ int loginUser(char *key, char *pass) {
 }
 
 int loginAdmin(char *key, char *pass) {
-    FILE *file = openFile("admins.dat");
+    FILE *file = openFileR("admins.dat");
     int id = 0;
     admin currentAdmin;
 
@@ -106,7 +106,7 @@ admin adminNewData() {
 }
 
 int generateUserId() {
-    FILE *file = openFile("usuarios.dat");
+    FILE *file = openFileR("usuarios.dat");
     int maxId = 0;
     user currentUser;
 
@@ -121,7 +121,7 @@ int generateUserId() {
 }
 
 int generateAdminId() {
-    FILE *file = openFile("admins.dat");
+    FILE *file = openFileR("admins.dat");
 
     int maxId = 0;
     admin currentAdmin;
@@ -140,7 +140,7 @@ int signInUser() {
     user newUser = userNewData();
     newUser.id = generateUserId();
 
-    FILE *file = openFile("usuarios.dat");
+    FILE *file = openFileA("usuarios.dat");
     fwrite(&newUser, sizeof(user), 1, file);
     fclose(file);
 
@@ -151,7 +151,7 @@ int signInAdmin() {
     admin newAdmin = adminNewData();
     newAdmin.adminId = generateAdminId();
 
-    FILE *file = openFile("admins.dat");
+    FILE *file = openFileA("admins.dat");
     fwrite(&newAdmin, sizeof(admin), 1, file);
     fclose(file);
 

@@ -31,8 +31,14 @@ typedef struct {
 } admin;
 
 typedef struct {
-    book b;
-    //Añadir fecha de devolucion
+    int day;
+    int month;
+    int year;
+} Date;
+
+typedef struct {
+    book b;      
+    Date dueDate; 
 } borrowB;
 
 typedef struct {
@@ -40,8 +46,8 @@ typedef struct {
     char lname[40];
     int id;
     char mail[50];
-    book borrowed1;
-    book borrowed2;
+    borrowB borrowed1;
+    borrowB borrowed2;
     bool blocked;
     int owed;
     char pass[50];

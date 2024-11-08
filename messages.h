@@ -1,27 +1,21 @@
+// messages.h
+
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
 #include <cstdio>
 
-//Mensajes generales
-const char* fileOpenError = "\nError de validación o al abrir el archivo\n";
+// Declare the variables as extern
+extern const char* fileOpenError;
+extern const char* loggedSuccessfully;
+extern const char* nLoggedSuccessfully;
+extern const char* signInSuccessfully;
+extern const char* nSignInSuccessfully;
 
-//Mensajes para la validacion de inicio de sesion y acciones en login.cpp
-const char* loggedSuccessfully = "\nSe inició sesión de manera exitosa\n";
-const char* nLoggedSuccessfully = "\nHubo un error al iniciar sesión\n";
+// Declare the functions (no definitions here, just declarations)
+void listar(const char* str);
 
-const char* signInSuccessfully = "\nEl registro se realizó con éxito\n";
-const char* nSignInSuccessfully = "\nNo se pudo realizar el registro\n";
+FILE* openFileR(const char* filename);
+FILE* openFileA(const char* filename);
 
-//Operación para abrir archivos
-FILE* openFile(const char* filename) {
-    FILE* file = fopen(filename, "rb");  // Open binary file
-    if (file == NULL) {
-        printf("%s",fileOpenError);
-        return NULL;  // Return NULL to indicate failure
-    }
-    return file;  // Return the file pointer on success
-}
-
-
-#endif
+#endif  // MESSAGES_H
