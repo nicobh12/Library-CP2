@@ -5,19 +5,19 @@
 #include <cstring>
 #include <cstdlib>  
 
-int loginUser(char *key, char *pass) {
+int loginUser(char *mail, char *pass) {
     FILE *file = openFileR("usuarios.dat");
     int id = 0;
     user currentUser;
 
     char decryptedPass[50];
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        // Desencriptamos la contraseña almacenada
-        decrypt_password(currentUser.pass, decryptedPass);
+    int desplazamiento = pass[0] % 26;  // Asegúrate de calcular el desplazamiento de la misma manera que en encrypt_password
 
-        // Comparamos el correo y la contraseña desencriptada
-        if (strcmp(key, currentUser.mail) == 0 && strcmp(decryptedPass, pass) == 0) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
+        decrypt_password(currentUser.pass, decryptedPass, desplazamiento);
+
+        if (strcmp(mail, currentUser.mail) == 0 && strcmp(decryptedPass, pass) == 0) {
             id = currentUser.id;
             break;
         }
@@ -32,15 +32,14 @@ int loginAdmin(char *key, char *pass) {
     int id = 0;
     admin currentAdmin;
 
-    int adminId = atoi(key); // Convertir el key a un int para comparar con adminId
+    int adminId = atoi(key); 
+    int desplazamiento = pass[0] % 26;  // Consistencia en el cálculo del desplazamiento
 
-    char decryptedPass[50];  // Para almacenar la contraseña desencriptada
+    char decryptedPass[50]; 
 
     while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
-        // Desencriptamos la contraseña almacenada
-        decrypt_password(currentAdmin.pass, decryptedPass);
+        decrypt_password(currentAdmin.pass, decryptedPass, desplazamiento);
 
-        // Comparamos el adminId y la contraseña desencriptada
         if (adminId == currentAdmin.adminId && strcmp(decryptedPass, pass) == 0) {
             id = currentAdmin.adminId;
             break;
@@ -50,6 +49,7 @@ int loginAdmin(char *key, char *pass) {
     fclose(file);
     return id;
 }
+
 
 void login(char *key, char *pass, bool isAdmin, int &id, bool &admin) {
     if (isAdmin) {

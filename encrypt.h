@@ -1,23 +1,53 @@
-#include <iostream>
+#ifndef ENCRYPT_H
+#define ENCRYPT_H
+
+#include <cstdio>
 #include <cstring>
+#include <cctype>
 
-// Función para encriptar la contraseña
+// Función para encriptar un solo carácter
+char encriptar_char(char c, int desplazamiento) {
+    // Si no es alfabético, no lo movemos, simplemente lo devolvemos tal cual
+    if (!isalpha(c)) return c;  
+    
+    // Determinamos si es mayúscula o minúscula y el inicio correspondiente ('A' o 'a')
+    char inicio = (isupper(c)) ? 'A' : 'a';
+    
+    // Aplicamos el cifrado manteniendo el caso (Cifrado César)
+    return inicio + ((c - inicio + desplazamiento) % 26);
+}
+
+// Función para desencriptar un solo carácter
+char desencriptar_char(char c, int desplazamiento) {
+    // Si no es alfabético, no lo movemos, simplemente lo devolvemos tal cual
+    if (!isalpha(c)) return c;  
+    
+    // Determinamos si es mayúscula o minúscula y el inicio correspondiente ('A' o 'a')
+    char inicio = (isupper(c)) ? 'A' : 'a';
+    
+    // Aplicamos el cifrado en sentido inverso (desplazamiento negativo)
+    return inicio + ((c - inicio - desplazamiento + 26) % 26);  // +26 para evitar números negativos
+}
+
+// Función para encriptar toda la contraseña
 void encrypt_password(const char* password, char* encrypted) {
-    // Usamos el valor ASCII del primer carácter de la contraseña como la clave de desplazamiento
-    int key = password[0];  // Primer carácter como clave
-    
-    for (int i = 0; i < strlen(password); i++) {
-        // Cifrado: desplazamos el carácter por el valor de la clave
-        encrypted[i] = password[i] + key;  // Modificar el carácter basado en la clave
+    int desplazamiento = password[0] % 26;
+    int len = strlen(password);
+
+    for (int i = 0; i < len; i++) {
+        encrypted[i] = encriptar_char(password[i], desplazamiento);
     }
-    encrypted[strlen(password)] = '\0';  // Añadir el terminador '\0'
+    encrypted[len] = '\0';  // Terminamos la cadena
 }
 
-void decrypt_password(const char* encrypted, char* decrypted) {
-    int key = encrypted[0]; 
-    
-    for (int i = 0; i < strlen(encrypted); i++) {
-        decrypted[i] = encrypted[i] - key;  
+void decrypt_password(const char* encrypted, char* decrypted, int desplazamiento) {
+    desplazamiento = desplazamiento % 26;  // Asegurarse de que el desplazamiento esté dentro de 0-25
+    int len = strlen(encrypted);
+
+    for (int i = 0; i < len; i++) {
+        decrypted[i] = desencriptar_char(encrypted[i], desplazamiento);
     }
-    decrypted[strlen(encrypted)] = '\0'; 
+    decrypted[len] = '\0';  // Terminamos la cadena
 }
+
+#endif
