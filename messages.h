@@ -18,7 +18,13 @@ extern const char* feeAssigned;
 extern const char* dataChanged;
 extern const char* userBlocked;
 extern const char* userUnblocked;
-
+extern const char* bookAddedSuccessfully;
+extern const char* alreadyTwoBooksBorrowed;
+extern const char* bookNotAvailable;
+extern const char* bookBorrowedSuccessfully;
+extern const char* bookNotFound;
+extern const char* bookDeletedSuccessfully;
+extern const char* bookModifiedSuccessfully;
 
 void listar(const char* str);
 

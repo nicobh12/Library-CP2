@@ -18,12 +18,19 @@ const char* nSignInSuccessfully = "\nNo se pudo realizar el registro\n";
 
 //Mensajes para otras acciones
 const char* userNotFound = "\nUsuario no encontrado\n";
-const char* userBlocked = "\nUsuario bloqueado exitosamente\n";
-const char* userUnblocked = "\nUsuario desbloqueado exitosamente\n";
+const char* userBlocked = "\nUsuario bloqueado\n";
+const char* userUnblocked = "\nUsuario desbloqueado\n";
 const char* feePaid = "\nSe ha pagado la deuda\n";
 const char* noFeeToPay = "\nEl usuario no tiene una deuda activa\n";
 const char* feeAssigned = "\nDeuda asignada exitosamente\n";
 const char* dataChanged = "\nDatos actualizados exitosamente\n";
+const char* bookAddedSuccessfully = "\nLibro agregado correctamente\n";
+const char* alreadyTwoBooksBorrowed = "\nTransaccion excede el limite de prestamos\n";
+const char* bookNotAvailable = "\nLibro no disponible\n";
+const char* bookBorrowedSuccessfully = "\nLibro prestado exitosamente";
+const char* bookNotFound = "\nLibro no encontrado";
+const char* bookDeletedSuccessfully = "\nLibro eliminado exitosamente\n";
+const char* bookModifiedSuccessfully = "\nLibro modificado exitosamente\n";
 
 
 //Para listar elementos

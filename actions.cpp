@@ -102,3 +102,11 @@ void changeData(int id) {
     if (!found) printf("%s", userNotFound);
     fclose(file);
 }
+
+void deleteUser(int id);
+
+void deleteAdmin(int id);
+
+void sortFileAU(const char* filename);
+
+void sortBooks(const char* filename);
