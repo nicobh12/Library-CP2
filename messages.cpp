@@ -3,16 +3,28 @@
 
 #include <cstdio>
 #include "structs.h"
+#include <locale.h>
+
 
 //Mensajes generales
-const char* fileOpenError = "\nError de validación o al abrir el archivo\n";
+const char* fileOpenError = "\nError de validacion o al abrir el archivo\n";
 
 //Mensajes para la validacion de inicio de sesion y acciones en login.cpp
-const char* loggedSuccessfully = "\nSe inició sesión de manera exitosa\n";
-const char* nLoggedSuccessfully = "\nHubo un error al iniciar sesión\n";
+const char* loggedSuccessfully = "\nSInicio de sesion exitoso\n";
+const char* nLoggedSuccessfully = "\nHubo un error al iniciar sesion\n";
 
-const char* signInSuccessfully = "\nEl registro se realizó con éxito\n";
+const char* signInSuccessfully = "\nEl registro fue realizado con exito\n";
 const char* nSignInSuccessfully = "\nNo se pudo realizar el registro\n";
+
+//Mensajes para otras acciones
+const char* userNotFound = "\nUsuario no encontrado\n";
+const char* userBlocked = "\nUsuario bloqueado exitosamente\n";
+const char* userUnblocked = "\nUsuario desbloqueado exitosamente\n";
+const char* feePaid = "\nSe ha pagado la deuda\n";
+const char* noFeeToPay = "\nEl usuario no tiene una deuda activa\n";
+const char* feeAssigned = "\nDeuda asignada exitosamente\n";
+const char* dataChanged = "\nDatos actualizados exitosamente\n";
+
 
 //Para listar elementos
 void listar(const char* elements){
@@ -27,6 +39,16 @@ FILE* openFileR(const char* filename) {
     }
     return file;  // Return the file pointer on success
 }
+
+FILE* openFileRPlus(const char* filename) {
+    FILE* file = fopen(filename, "r+b");  // Open binary file
+    if (file == NULL) {
+        printf("%s",fileOpenError);
+        return NULL;  // Return NULL to indicate failure
+    }
+    return file;  // Return the file pointer on success
+}
+
 
 FILE* openFileA(const char* filename) {
     FILE* file = fopen(filename, "ab");  // Open binary file

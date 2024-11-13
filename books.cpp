@@ -1,7 +1,7 @@
 #include "structs.h"
 
-void addBook(const char* filename, infoBooks b);
+void addBook(infoBooks *b, int n);
 
-void borrowBook(const char* Bfilename, const char* Ufilename);
+void borrowBook(int userId, borrowB);
 
-void deleteBook(const char* filename);
+void deleteBook(int bookId);

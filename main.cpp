@@ -1,11 +1,9 @@
 #include <cstdio>
 #include <cstdlib>
-#include <locale.h>
 #include "login.h"
 #include "view.h"
 
 int main(){
-    setlocale (LC_ALL, "spanish");
 
     const char* Fusers = "users.dat";
     const char* Fadmins = "admins.dat";
