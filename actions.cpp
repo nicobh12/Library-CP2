@@ -2,6 +2,7 @@
 #include "messages.h"
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
 
 void blockUnblockUser(int userId) {
     FILE* file = openFileRPlus("usuarios.dat");
@@ -103,10 +104,127 @@ void changeData(int id) {
     fclose(file);
 }
 
-void deleteUser(int id);
+void deleteUser(int id) {
+    FILE *file = openFileR("usuarios.dat");
+    FILE *tempFile = openFileW("temp.dat");
 
-void deleteAdmin(int id);
+    if (!file || !tempFile) return;
 
-void sortFileAU(const char* filename);
+    user currentUser;
+    bool found = false;
 
-void sortBooks(const char* filename);
+    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
+        if (currentUser.id == id) {
+            found = true;
+            printf("%s", userDeletedSuccessfully);
+        } else {
+            fwrite(&currentUser, sizeof(user), 1, tempFile);
+        }
+    }
+
+    if (!found) printf("%s", userNotFound);
+
+    fclose(file);
+    fclose(tempFile);
+
+    remove("usuarios.dat");
+    rename("temp.dat", "usuarios.dat");
+}
+
+void deleteAdmin(int id) {
+    FILE *file = openFileR("admins.dat");
+    FILE *tempFile = openFileW("temp.dat");
+
+    if (!file || !tempFile) return;
+
+    admin currentAdmin;
+    bool found = false;
+
+    while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
+        if (currentAdmin.adminId == id) {
+            found = true;
+            printf("%s", adminDeletedSuccessfully);
+        } else {
+            fwrite(&currentAdmin, sizeof(admin), 1, tempFile);
+        }
+    }
+
+    if (!found) printf("%s", adminNotFound);
+
+    fclose(file);
+    fclose(tempFile);
+
+    remove("admins.dat");
+    rename("temp.dat", "admins.dat");
+}
+
+#include <algorithm>  // Para std::sort
+
+void sortUsers() {
+    FILE *file = openFileR("usuarios.dat");
+    if (!file) return;
+
+    user users[100];
+    int count = 0;
+
+    while (fread(&users[count], sizeof(user), 1, file) == 1) {
+        count++;
+    }
+    fclose(file);
+
+    std::sort(users, users + count, [](const user &a, const user &b) {
+        return strcasecmp(a.lname, b.lname) < 0;
+    });
+
+    file = openFileW("usuarios.dat");
+    fwrite(users, sizeof(user), count, file);
+    fclose(file);
+    printf("%s", usersSortedSuccessfully);
+}
+
+void sortAdmins() {
+    FILE *file = openFileR("admins.dat");
+    if (!file) return;
+
+    admin admins[100];
+    int count = 0;
+
+    while (fread(&admins[count], sizeof(admin), 1, file) == 1) {
+        count++;
+    }
+    fclose(file);
+
+    std::sort(admins, admins + count, [](const admin &a, const admin &b) {
+        return strcasecmp(a.lname, b.lname) < 0;
+    });
+
+    file = openFileW("admins.dat");
+    fwrite(admins, sizeof(admin), count, file);
+    fclose(file);
+    printf("%s", adminsSortedSuccessfully);
+}
+
+void sortBooks() {
+    FILE *file = openFileR("libros.dat");
+    if (!file) return;
+
+    infoBooks books[100];
+    int count = 0;
+
+    // Leer todos los libros del archivo
+    while (fread(&books[count], sizeof(infoBooks), 1, file) == 1) {
+        count++;
+    }
+    fclose(file);
+
+    // Ordenar los libros por título, ignorando mayúsculas
+    std::sort(books, books + count, [](const infoBooks &a, const infoBooks &b) {
+        return strcasecmp(a.b.title, b.b.title) < 0;
+    });
+
+    // Reescribir los libros ordenados en el archivo
+    file = openFileW("libros.dat");
+    fwrite(books, sizeof(infoBooks), count, file);
+    fclose(file);
+    printf("%s", booksSortedSuccessfully);
+}

@@ -25,6 +25,15 @@ extern const char* bookBorrowedSuccessfully;
 extern const char* bookNotFound;
 extern const char* bookDeletedSuccessfully;
 extern const char* bookModifiedSuccessfully;
+extern const char* userDeletedSuccessfully;
+extern const char* adminDeletedSuccessfully;
+extern const char* adminNotFound;
+extern const char* usersSortedSuccessfully;
+extern const char* adminsSortedSuccessfully;
+extern const char* booksSortedSuccessfully;
+extern const char* genreNotFound;
+extern const char* noBooksInGenre;
+
 
 void listar(const char* str);
 

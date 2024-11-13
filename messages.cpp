@@ -31,6 +31,14 @@ const char* bookBorrowedSuccessfully = "\nLibro prestado exitosamente";
 const char* bookNotFound = "\nLibro no encontrado";
 const char* bookDeletedSuccessfully = "\nLibro eliminado exitosamente\n";
 const char* bookModifiedSuccessfully = "\nLibro modificado exitosamente\n";
+const char* userDeletedSuccessfully = "\nUsuario eliminado exitosamente\n";
+const char* adminDeletedSuccessfully = "\nAdministrador eliminado correctamente\n";
+const char* adminNotFound = "\nAdministrador no encontrado\n";
+const char* usersSortedSuccessfully = "\neUsuarios ordenados correctamente";
+const char* adminsSortedSuccessfully = "\nAdministradores ordenados correctamente";
+const char* booksSortedSuccessfully = "\nLibros ordenados correctamente";
+const char* genreNotFound = "\nGenero no encontrado\n";
+const char* noBooksInGenre = "\nNo hay libros del genero buscado\n";
 
 
 //Para listar elementos
@@ -78,19 +86,18 @@ FILE* openFileW(const char* filename) {
 
 const char* genreToString(genre g) {
     switch (g) {
-        case FICTION: return "Fiction";
-        case NON_FICTION: return "Non-Fiction";
-        case MYSTERY: return "Mystery";
-        case FANTASY: return "Fantasy";
-        case SCIENCE_FICTION: return "Science Fiction";
-        case BIOGRAPHY: return "Biography";
-        case HISTORY: return "History";
-        case POETRY: return "Poetry";
-        case YOUNG_ADULT: return "Young Adult";
-        case OTHER: return "Other";
-        default: return "Unknown";  // This handles any out-of-range values (e.g., if there's a bug)
+        case FICCION: return "Ficcion";
+        case NO_FICCION: return "No Ficcion";
+        case MISTERIO: return "Misterio";
+        case FANTASIA: return "Fantasia";
+        case CIENCIA_FICCION: return "Ciencia Ficcion";
+        case BIOGRAFIA: return "Biografia";
+        case HISTORIA: return "Historia";
+        case POESIA: return "Poesia";
+        case YOUNG_ADULT: return "Young Adult";  // Lo dejo igual, ya que "Young Adult" es comúnmente usado en español también
+        case OTRO: return "Otro";
+        default: return "Desconocido";  // En caso de valores fuera de rango
     }
 }
-
 
 #endif

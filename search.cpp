@@ -153,27 +153,41 @@ void searchBookByAuthor(const char* author) {
     fclose(searchFile);
 }
 
-/* void searchBookByGenre(genre g) {
-    FILE* file = openFileR("books.dat");
-    FILE* searchFile = openFileW("searchBooks.dat");
-    if (!file || !searchFile) return;
+void searchByGenre(const char* g) {
+    genre searchGenre;
+
+    if (strcasecmp(g, "FICCION") == 0) searchGenre = FICCION;
+    else if (strcasecmp(g, "NO_FICCION") == 0) searchGenre = NO_FICCION;
+    else if (strcasecmp(g, "MISTERIO") == 0) searchGenre = MISTERIO;
+    else if (strcasecmp(g, "FANTASIA") == 0) searchGenre = FANTASIA;
+    else if (strcasecmp(g, "CIENCIA_FICCION") == 0) searchGenre = CIENCIA_FICCION;
+    else if (strcasecmp(g, "BIOGRAFIA") == 0) searchGenre = BIOGRAFIA;
+    else if (strcasecmp(g, "HISTORIA") == 0) searchGenre = HISTORIA;
+    else if (strcasecmp(g, "POESIA") == 0) searchGenre = POESIA;
+    else if (strcasecmp(g, "YOUNG_ADULT") == 0) searchGenre = YOUNG_ADULT;
+    else if (strcasecmp(g, "OTRO") == 0) searchGenre = OTRO;
+    else {
+        printf("%s", genreNotFound);
+        return;
+    }
+
+    FILE *file = openFileR("libros.dat");
+    if (!file) return;
 
     infoBooks currentBook;
     bool found = false;
-    printf("\n--- Búsqueda por Género ---\n");
 
+    printf("Libros encontrados en el género %s:\n", g);
     while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
-        if (currentBook.b.g == g) {
-            saveAndDisplayBook(searchFile, currentBook.b);
+        if (currentBook.b.g == searchGenre) {
+            printf("Título: %s\nAutor: %s\nAño de Publicación: %d\n\n", currentBook.b.title, currentBook.b.author, currentBook.b.pYear);
             found = true;
         }
     }
-    if (!found) printf("No se encontraron libros del género especificado.\n");
 
+    if (!found) printf("%s", noBooksInGenre);
     fclose(file);
-    fclose(searchFile);
 }
- */
 
 void searchBookByPYear(int year) {
     FILE* file = openFileR("books.dat");

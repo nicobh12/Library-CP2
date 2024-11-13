@@ -4,16 +4,16 @@
 #include <stdbool.h>
 
 typedef enum {
-    FICTION,
-    NON_FICTION,
-    MYSTERY,
-    FANTASY,
-    SCIENCE_FICTION,
-    BIOGRAPHY,
-    HISTORY,
-    POETRY,
+    FICCION,
+    NO_FICCION,
+    MISTERIO,
+    FANTASIA,
+    CIENCIA_FICCION,
+    BIOGRAFIA,
+    HISTORIA,
+    POESIA,
     YOUNG_ADULT,
-    OTHER
+    OTRO
 } genre;
 
 typedef struct {
