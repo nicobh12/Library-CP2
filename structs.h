@@ -3,7 +3,8 @@
 
 #include <stdbool.h>
 
-typedef enum {
+typedef enum
+{
     FICCION,
     NO_FICCION,
     MISTERIO,
@@ -16,32 +17,37 @@ typedef enum {
     OTRO
 } genre;
 
-typedef struct {
+typedef struct
+{
     char title[60];
     char author[40];
     genre g;
     int pYear;
 } book;
 
-typedef struct {
+typedef struct
+{
     char name[20];
     char lname[40];
     int adminId;
     char pass[50];
 } admin;
 
-typedef struct {
+typedef struct
+{
     int day;
     int month;
     int year;
 } Date;
 
-typedef struct {
-    book b;      
-    Date dueDate; 
+typedef struct
+{
+    book b;
+    Date dueDate;
 } borrowB;
 
-typedef struct {
+typedef struct
+{
     char name[20];
     char lname[40];
     int id;
@@ -53,7 +59,8 @@ typedef struct {
     char pass[50];
 } user;
 
-typedef struct {
+typedef struct
+{
     book b;
     int total;
     user *borrows;
@@ -61,7 +68,8 @@ typedef struct {
     int id;
 } infoBooks;
 
-typedef struct{
+typedef struct
+{
     char subject[40];
     char body[500];
 } observaciones;

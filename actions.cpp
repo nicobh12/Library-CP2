@@ -4,63 +4,80 @@
 #include <cstring>
 #include <algorithm>
 
-void blockUnblockUser(int userId) {
-    FILE* file = openFileRPlus("usuarios.dat");
-    if (!file) return;
+void blockUnblockUser(int userId)
+{
+    FILE *file = openFileRPlus("usuarios.dat");
+    if (!file)
+        return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (currentUser.id == userId) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1)
+    {
+        if (currentUser.id == userId)
+        {
             found = true;
-            currentUser.blocked = !currentUser.blocked; // Cambia el estado
-            fseek(file, -static_cast<long>(sizeof(user)), SEEK_CUR); // Volver al inicio del usuario actual
-            fwrite(&currentUser, sizeof(user), 1, file); // Actualizar en el archivo
+            currentUser.blocked = !currentUser.blocked;                            // Cambia el estado
+            fseek(file, -static_cast<long>(sizeof(user)), SEEK_CUR);               // Volver al inicio del usuario actual
+            fwrite(&currentUser, sizeof(user), 1, file);                           // Actualizar en el archivo
             printf(currentUser.blocked ? "%s" : "%s", userBlocked, userUnblocked); // Mensaje de confirmación
             break;
         }
     }
 
-    if (!found) printf("%s", userNotFound); // Mensaje de error si no se encuentra el usuario
+    if (!found)
+        printf("%s", userNotFound); // Mensaje de error si no se encuentra el usuario
     fclose(file);
 }
 
-void payUp(int userId) {
-    FILE* file = openFileRPlus("usuarios.dat");
-    if (!file) return;
+void payUp(int userId)
+{
+    FILE *file = openFileRPlus("usuarios.dat");
+    if (!file)
+        return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (currentUser.id == userId) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1)
+    {
+        if (currentUser.id == userId)
+        {
             found = true;
-            if (currentUser.owed > 0) {
+            if (currentUser.owed > 0)
+            {
                 currentUser.owed = 0; // Eliminar deuda
                 fseek(file, -static_cast<long>(sizeof(user)), SEEK_CUR);
                 fwrite(&currentUser, sizeof(user), 1, file);
                 printf("%s", feePaid);
-            } else {
+            }
+            else
+            {
                 printf("%s", noFeeToPay);
             }
             break;
         }
     }
 
-    if (!found) printf("%s", userNotFound);
+    if (!found)
+        printf("%s", userNotFound);
     fclose(file);
 }
 
-void assignFee(int userId) {
-    FILE* file = openFileRPlus("usuarios.dat");
-    if (!file) return;
+void assignFee(int userId)
+{
+    FILE *file = openFileRPlus("usuarios.dat");
+    if (!file)
+        return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (currentUser.id == userId) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1)
+    {
+        if (currentUser.id == userId)
+        {
             found = true;
             currentUser.owed += 10; // Asignar multa fija (puedes cambiar el valor si es necesario)
             fseek(file, -static_cast<long>(sizeof(user)), SEEK_CUR);
@@ -70,19 +87,24 @@ void assignFee(int userId) {
         }
     }
 
-    if (!found) printf("%s", userNotFound);
+    if (!found)
+        printf("%s", userNotFound);
     fclose(file);
 }
 
-void changeData(int id) {
-    FILE* file = openFileRPlus("usuarios.dat");
-    if (!file) return;
+void changeData(int id)
+{
+    FILE *file = openFileRPlus("usuarios.dat");
+    if (!file)
+        return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (currentUser.id == id) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1)
+    {
+        if (currentUser.id == id)
+        {
             found = true;
             printf("\nIngrese el nuevo nombre del usuario: ");
             scanf("%s", currentUser.name);
@@ -100,29 +122,37 @@ void changeData(int id) {
         }
     }
 
-    if (!found) printf("%s", userNotFound);
+    if (!found)
+        printf("%s", userNotFound);
     fclose(file);
 }
 
-void deleteUser(int id) {
+void deleteUser(int id)
+{
     FILE *file = openFileR("usuarios.dat");
     FILE *tempFile = openFileW("temp.dat");
 
-    if (!file || !tempFile) return;
+    if (!file || !tempFile)
+        return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
-        if (currentUser.id == id) {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1)
+    {
+        if (currentUser.id == id)
+        {
             found = true;
             printf("%s", userDeletedSuccessfully);
-        } else {
+        }
+        else
+        {
             fwrite(&currentUser, sizeof(user), 1, tempFile);
         }
     }
 
-    if (!found) printf("%s", userNotFound);
+    if (!found)
+        printf("%s", userNotFound);
 
     fclose(file);
     fclose(tempFile);
@@ -131,25 +161,32 @@ void deleteUser(int id) {
     rename("temp.dat", "usuarios.dat");
 }
 
-void deleteAdmin(int id) {
+void deleteAdmin(int id)
+{
     FILE *file = openFileR("admins.dat");
     FILE *tempFile = openFileW("temp.dat");
 
-    if (!file || !tempFile) return;
+    if (!file || !tempFile)
+        return;
 
     admin currentAdmin;
     bool found = false;
 
-    while (fread(&currentAdmin, sizeof(admin), 1, file) == 1) {
-        if (currentAdmin.adminId == id) {
+    while (fread(&currentAdmin, sizeof(admin), 1, file) == 1)
+    {
+        if (currentAdmin.adminId == id)
+        {
             found = true;
             printf("%s", adminDeletedSuccessfully);
-        } else {
+        }
+        else
+        {
             fwrite(&currentAdmin, sizeof(admin), 1, tempFile);
         }
     }
 
-    if (!found) printf("%s", adminNotFound);
+    if (!found)
+        printf("%s", adminNotFound);
 
     fclose(file);
     fclose(tempFile);
@@ -158,23 +195,23 @@ void deleteAdmin(int id) {
     rename("temp.dat", "admins.dat");
 }
 
-#include <algorithm>  // Para std::sort
-
-void sortUsers() {
+void sortUsers()
+{
     FILE *file = openFileR("usuarios.dat");
-    if (!file) return;
+    if (!file)
+        return;
 
     user users[100];
     int count = 0;
 
-    while (fread(&users[count], sizeof(user), 1, file) == 1) {
+    while (fread(&users[count], sizeof(user), 1, file) == 1)
+    {
         count++;
     }
     fclose(file);
 
-    std::sort(users, users + count, [](const user &a, const user &b) {
-        return strcasecmp(a.lname, b.lname) < 0;
-    });
+    std::sort(users, users + count, [](const user &a, const user &b)
+              { return strcasecmp(a.lname, b.lname) < 0; });
 
     file = openFileW("usuarios.dat");
     fwrite(users, sizeof(user), count, file);
@@ -182,21 +219,23 @@ void sortUsers() {
     printf("%s", usersSortedSuccessfully);
 }
 
-void sortAdmins() {
+void sortAdmins()
+{
     FILE *file = openFileR("admins.dat");
-    if (!file) return;
+    if (!file)
+        return;
 
     admin admins[100];
     int count = 0;
 
-    while (fread(&admins[count], sizeof(admin), 1, file) == 1) {
+    while (fread(&admins[count], sizeof(admin), 1, file) == 1)
+    {
         count++;
     }
     fclose(file);
 
-    std::sort(admins, admins + count, [](const admin &a, const admin &b) {
-        return strcasecmp(a.lname, b.lname) < 0;
-    });
+    std::sort(admins, admins + count, [](const admin &a, const admin &b)
+              { return strcasecmp(a.lname, b.lname) < 0; });
 
     file = openFileW("admins.dat");
     fwrite(admins, sizeof(admin), count, file);
@@ -204,25 +243,24 @@ void sortAdmins() {
     printf("%s", adminsSortedSuccessfully);
 }
 
-void sortBooks() {
+void sortBooks()
+{
     FILE *file = openFileR("libros.dat");
-    if (!file) return;
+    if (!file)
+        return;
 
     infoBooks books[100];
     int count = 0;
 
-    // Leer todos los libros del archivo
-    while (fread(&books[count], sizeof(infoBooks), 1, file) == 1) {
+    while (fread(&books[count], sizeof(infoBooks), 1, file) == 1)
+    {
         count++;
     }
     fclose(file);
 
-    // Ordenar los libros por título, ignorando mayúsculas
-    std::sort(books, books + count, [](const infoBooks &a, const infoBooks &b) {
-        return strcasecmp(a.b.title, b.b.title) < 0;
-    });
+    std::sort(books, books + count, [](const infoBooks &a, const infoBooks &b)
+              { return strcasecmp(a.b.title, b.b.title) < 0; });
 
-    // Reescribir los libros ordenados en el archivo
     file = openFileW("libros.dat");
     fwrite(books, sizeof(infoBooks), count, file);
     fclose(file);
