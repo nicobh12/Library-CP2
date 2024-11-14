@@ -61,20 +61,8 @@ void viewBorrows(bool isAdmin)
     {
         if (currentBook.available == 0)
         {
-            printf("ID: %d\nTítulo: %s\nAutor: %s\nGénero: %d\nPrestados: %d\n\n",
+            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %d\nPrestados: %d\n\n",
                    currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g), currentBook.total);
-
-            // Si es administrador, muestra quiénes han prestado el libro
-            if (isAdmin && currentBook.borrows != nullptr)
-            {
-                printf("Usuarios que prestaron el libro:\n");
-                for (int i = 0; i < currentBook.total; i++)
-                {
-                    printf("ID Usuario: %d, Nombre: %s %s\n",
-                           currentBook.borrows[i].id, currentBook.borrows[i].name, currentBook.borrows[i].lname);
-                }
-                printf("\n");
-            }
         }
     }
 
@@ -92,20 +80,11 @@ void availableBooks(bool isAdmin)
     {
         if (currentBook.available > 0)
         {
-            printf("ID: %d\nTítulo: %s\nAutor: %s\nGénero: %d\nDisponibles: %d de %d\n\n",
+            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %d\nDisponibles: %d de %d\n\n",
                    currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g),
                    currentBook.available, currentBook.total);
 
-            if (isAdmin && currentBook.available != currentBook.total && currentBook.borrows != nullptr)
-            {
-                printf("Usuarios que tienen el libro en préstamo:\n");
-                for (int i = 0; i < currentBook.total - currentBook.available; i++)
-                {
-                    printf("ID Usuario: %d, Nombre: %s %s\n",
-                           currentBook.borrows[i].id, currentBook.borrows[i].name, currentBook.borrows[i].lname);
-                }
-                printf("\n");
-            }
+        
         }
     }
 
@@ -184,8 +163,6 @@ void viewAdmins()
         printf("Nombre: %s %s\n", currentAdmin.name, currentAdmin.lname);
         printf("ID Admin: %d\n", currentAdmin.adminId);
     }
-
-    printf("%d", file);
 
     fclose(file);
 }

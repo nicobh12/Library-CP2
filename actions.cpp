@@ -245,7 +245,7 @@ void sortAdmins()
 
 void sortBooks()
 {
-    FILE *file = openFileR("libros.dat");
+    FILE *file = openFileR("books.dat");
     if (!file)
         return;
 
@@ -261,7 +261,7 @@ void sortBooks()
     std::sort(books, books + count, [](const infoBooks &a, const infoBooks &b)
               { return strcasecmp(a.b.title, b.b.title) < 0; });
 
-    file = openFileW("libros.dat");
+    file = openFileW("books.dat");
     fwrite(books, sizeof(infoBooks), count, file);
     fclose(file);
     printf("%s", booksSortedSuccessfully);

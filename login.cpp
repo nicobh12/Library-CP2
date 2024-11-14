@@ -1,6 +1,7 @@
 #include "structs.h"
 #include "messages.h"
 #include "encrypt.h"
+#include "actions.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -87,10 +88,10 @@ user userNewData()
     printf("\nIngrese el apellido del usuario: \n");
     scanf("%s", newUser.lname);
 
-    printf("\nIngrese el correo electrónico del usuario: \n");
+    printf("\nIngrese el correo electronico del usuario: \n");
     scanf("%s", newUser.mail);
 
-    printf("\nIngrese la contraseña del usuario: \n");
+    printf("\nIngrese la clave del usuario: \n");
     scanf("%s", pass);
 
     encrypt_password(pass, newUser.pass); // Usamos el arreglo de long long para almacenar la contraseña encriptada
@@ -114,7 +115,7 @@ admin adminNewData()
     printf("\nIngrese el apellido del administrador: \n");
     scanf("%s", newAdmin.lname);
 
-    printf("\nIngrese la contraseña del administrador: \n");
+    printf("\nIngrese la clave del administrador: \n");
     scanf("%s", pass);
 
     /// Encriptamos la contraseña antes de almacenarla
@@ -170,6 +171,8 @@ int signInUser()
     fwrite(&newUser, sizeof(user), 1, file);
     fclose(file);
 
+    sortUsers();
+
     return newUser.id;
 }
 
@@ -181,6 +184,8 @@ int signInAdmin()
     FILE *file = openFileA("admins.dat");
     fwrite(&newAdmin, sizeof(admin), 1, file);
     fclose(file);
+
+    sortAdmins();
 
     return newAdmin.adminId;
 }

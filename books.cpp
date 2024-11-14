@@ -1,8 +1,31 @@
 #include "structs.h"
 #include "messages.h"
+#include "actions.h"
 #include <cstdio>
 #include <ctime>
 #include <cstring>
+
+void printGenresList()
+{
+    const char *genres[] = {
+        "1. Ficcion",
+        "2. No Ficcion",
+        "3. Misterio",
+        "4. Fantasia",
+        "5. Ciencia Ficcion",
+        "6. Biografia",
+        "7. Historia",
+        "8. Poesia",
+        "9. Young Adult",
+        "10. Otro"
+    };
+
+    int numGenres = sizeof(genres) / sizeof(genres[0]);
+    for (int i = 0; i < numGenres; i++)
+    {
+        printf("%s\n", genres[i]);
+    }
+}
 
 void assignDueDate(Date &dueDate)
 {
@@ -27,23 +50,24 @@ void assignDueDate(Date &dueDate)
 
 void addBook(int n)
 {
-    FILE *file = openFileA("libros.dat");
+    FILE *file = openFileA("books.dat");
     if (!file)
         return;
 
     infoBooks newBook;
     for (int i = 0; i < n; i++)
     {
-        printf("\nIngrese el título del libro: ");
-        scanf("%s", newBook.b.title);
+        printf("\nIngrese el titulo del libro: ");
+        scanf(" %[^\n]", newBook.b.title);
 
         printf("Ingrese el autor del libro: ");
-        scanf("%s", newBook.b.author);
+        scanf(" %[^\n]", newBook.b.author);
 
-        printf("Ingrese el género (0-9): ");
+        printf("Ingrese el genero (0-9): \n");
+        printGenresList();
         scanf("%d", reinterpret_cast<int *>(&newBook.b.g));
 
-        printf("Ingrese el año de publicación: ");
+        printf("Ingrese fecha de publicacion (aaaa): ");
         scanf("%d", &newBook.b.pYear);
 
         printf("Ingrese la cantidad total de este libro: ");
@@ -57,12 +81,14 @@ void addBook(int n)
         printf("%s", bookAddedSuccessfully);
     }
     fclose(file);
+
+    sortBooks();
 }
 
 void borrowBook(int userId, int bookId)
 {
     FILE *userFile = openFileRPlus("usuarios.dat");
-    FILE *bookFile = openFileRPlus("libros.dat");
+    FILE *bookFile = openFileRPlus("books.dat");
 
     if (!userFile || !bookFile)
         return;
@@ -142,7 +168,7 @@ void borrowBook(int userId, int bookId)
 
 void deleteBook(int bookId)
 {
-    FILE *file = openFileRPlus("libros.dat");
+    FILE *file = openFileRPlus("books.dat");
     FILE *tempFile = openFileW("temp.dat");
 
     if (!file || !tempFile)
@@ -170,13 +196,13 @@ void deleteBook(int bookId)
     fclose(file);
     fclose(tempFile);
 
-    remove("libros.dat");
-    rename("temp.dat", "libros.dat");
+    remove("books.dat");
+    rename("temp.dat", "books.dat");
 }
 
 void modifyBook(int bookId)
 {
-    FILE *file = openFileRPlus("libros.dat");
+    FILE *file = openFileRPlus("books.dat");
     if (!file)
         return;
 
@@ -190,10 +216,10 @@ void modifyBook(int bookId)
             found = true;
 
             printf("\nIngrese el nuevo título del libro: ");
-            scanf("%s", currentBook.b.title);
+            scanf(" %[^\n]", currentBook.b.title);
 
             printf("Ingrese el nuevo autor del libro: ");
-            scanf("%s", currentBook.b.author);
+            scanf(" %[^\n]", currentBook.b.author);
 
             printf("Ingrese el nuevo género (0-9): ");
             scanf("%d", reinterpret_cast<int *>(&currentBook.b.g));
@@ -251,7 +277,7 @@ void returnBook(int userId, int bookId)
     // Verificar si el libro a devolver está en `borrowed1`
     if (currentUser.borrowed1.b.title[0] != '\0' && currentUser.borrowed1.b.pYear == bookId)
     {
-        // Actualizar la disponibilidad del libro en `libros.dat`
+        // Actualizar la disponibilidad del libro en `books.dat`
         infoBooks currentBook;
         while (fread(&currentBook, sizeof(infoBooks), 1, bookFile) == 1)
         {
@@ -271,7 +297,7 @@ void returnBook(int userId, int bookId)
     // Si el libro no estaba en `borrowed1`, verificar en `borrowed2`
     else if (currentUser.borrowed2.b.title[0] != '\0' && currentUser.borrowed2.b.pYear == bookId)
     {
-        // Actualizar la disponibilidad del libro en `libros.dat`
+        // Actualizar la disponibilidad del libro en `books.dat`
         infoBooks currentBook;
         fseek(bookFile, 0, SEEK_SET); // Volver al inicio del archivo de libros
         while (fread(&currentBook, sizeof(infoBooks), 1, bookFile) == 1)
@@ -295,11 +321,11 @@ void returnBook(int userId, int bookId)
         // Reescribir los datos del usuario en `usuarios.dat`
         fseek(bookFile, -static_cast<long>(sizeof(infoBooks)), SEEK_CUR);
         fwrite(&currentUser, sizeof(user), 1, userFile);
-        printf("Libro devuelto correctamente.\n");
+        printf("Libro devuelto exitosamente.\n");
     }
     else
     {
-        printf("El usuario no tiene prestado el libro con ID %d.\n", bookId);
+        printf("Libro no encontrado en los registros de préstamo del usuario.\n");
     }
 
     fclose(userFile);

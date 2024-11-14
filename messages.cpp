@@ -17,7 +17,7 @@
 const char *fileOpenError = "\nError de validacion o al abrir el archivo\n";
 
 // Mensajes para la validacion de inicio de sesion y acciones en login.cpp
-const char *loggedSuccessfully = "\nSInicio de sesion exitoso\n";
+const char *loggedSuccessfully = "\nInicio de sesion exitoso\n";
 const char *nLoggedSuccessfully = "\nHubo un error al iniciar sesion\n";
 
 const char *signInSuccessfully = "\nEl registro fue realizado con exito\n";
@@ -128,41 +128,38 @@ const char *genreToString(genre g)
 
 // Menús
 
-void searchUserMenu()
-{
+void searchUserMenu() {
     char option;
     char buffer[50]; // Buffer para entradas de texto
     int id;
 
-    do
-    {
+    do {
         // Mostrar el menú de opciones
         printf("\n==== Menu de Busqueda de Usuario ====\n");
         printf("1. Buscar por nombre\n");
         printf("2. Buscar por apellido\n");
         printf("3. Buscar por ID\n");
         printf("0. Volver al menu anterior\n");
-        printf("Seleccione una opción: ");
+        printf("Seleccione una opcion: ");
 
-        // Leer la opción del usuario y limpiar el buffer
+        // Leer la opcion del usuario y limpiar el buffer
         option = getchar();
-        fflush(stdin);
-        system("cls");
+        fflush(stdin);  // Limpiar el buffer de entrada
+        system("cls");  // Limpiar la pantalla
 
-        switch (option)
-        {
+        switch (option) {
         case '1': // Buscar por nombre
             printf("Ingrese el nombre a buscar: ");
-            fgets(buffer, sizeof(buffer), stdin);
-            buffer[strcspn(buffer, "\n")] = '\0'; // Eliminar el salto de línea
+            scanf("%[^\n]%*c", &buffer);
             searchUserByName(buffer);
+            getchar();  // Espera a que el usuario presione una tecla antes de continuar
             break;
 
         case '2': // Buscar por apellido
             printf("Ingrese el apellido a buscar: ");
-            fgets(buffer, sizeof(buffer), stdin);
-            buffer[strcspn(buffer, "\n")] = '\0'; // Eliminar el salto de línea
+            scanf("%[^\n]%*c", &buffer);
             searchUserByLName(buffer);
+            getchar();  // Espera a que el usuario presione una tecla antes de continuar
             break;
 
         case '3': // Buscar por ID
@@ -170,23 +167,24 @@ void searchUserMenu()
             scanf("%d", &id);
             fflush(stdin);
             searchUserById(id);
+            getchar();  // Espera a que el usuario presione una tecla antes de continuar
             break;
 
         case '0': // Volver al menú anterior
             printf("Volviendo al menu anterior...\n");
             break;
 
-        default: // Opción inválida
+        default: // Opcion inválida
             printf("Opcion no valida. Por favor, intente de nuevo.\n");
         }
-        getchar();
 
+        getchar();
         system("cls");
+
     } while (option != '0');
 }
 
-void searchBookMenu()
-{
+void searchBookMenu() {
     int option = 0;
 
     printf("\n--- MENU DE BUSQUEDA DE LIBROS ---\n");
@@ -196,64 +194,60 @@ void searchBookMenu()
     printf("4. Buscar por genero\n");
     printf("5. Buscar sin campo especifico\n");
     printf("0. Salir\n");
-    printf("Ingrese una opción: ");
+    printf("Ingrese una opcion: ");
     scanf("%d", &option);
     getchar();
 
     fflush(stdin);
     system("cls");
 
-    switch (option)
-    {
-    case 1:
-    {
+    switch (option) {
+    case 1: {
         int id;
-        printf("Ingrese el ID del libro: ");
+        printf("Ingrese el id del libro: ");
         scanf("%d", &id);
         searchBookById(id);
+        getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     }
-    case 2:
-    {
+    case 2: {
         char title[60];
         printf("Ingrese el titulo del libro: ");
-        scanf(" %[^\n]", title);
+        scanf(" %[^\n]%*c", &title);
         searchBookByTitle(title);
+        getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     }
-    case 3:
-    {
+    case 3: {
         char author[40];
         printf("Ingrese el autor del libro: ");
-        scanf(" %[^\n]", author);
+        scanf(" %[^\n]%*c", &author);
         searchBookByAuthor(author);
+        getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     }
-    case 4:
-    {
+    case 4: {
         char genre[20];
         printf("Ingrese el genero del libro: ");
-        scanf(" %[^\n]", genre);
+        scanf(" %[^\n]%*c", &genre);
         searchByGenre(genre);
+        getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     }
     case 5:
-        // Llamar a la nueva función para búsqueda sin campo específico
         searchBook();
+        getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     case 0:
         printf("Saliendo del menu de búsqueda de libros...\n");
         break;
     default:
-        printf("Opción no valida. Intente de nuevo.\n");
+        printf("Opcion no valida. Intente de nuevo.\n");
         break;
     }
-    getchar();
-
-    system("cls");
 }
 
-void guestMenu(int id, bool admin)
+void guestMenu(int &id, bool &admin)
 {
     int option = 0;
     do
@@ -278,27 +272,28 @@ void guestMenu(int id, bool admin)
         switch (option)
         {
         case 1:
-            printf("Ingrese la clave: ");
-            fgets(clave, MAX_LEN, stdin);
-            clave[strcspn(clave, "\n")] = '\0';
+            printf("Ingrese su admin id: ");
+            scanf("%[^\n]%*c", &clave);
 
-            printf("Ingrese la contraseña: ");
-            fgets(password, MAX_LEN, stdin);
+            printf("Ingrese la clave: ");
+            scanf("%[^\n]%*c", &password);
 
             login(clave, password, true, id, admin);
+            option = 0;
             break;
         case 2:
-            printf("Ingrese la clave: ");
-            fgets(clave, MAX_LEN, stdin);
-            clave[strcspn(clave, "\n")] = '\0';
+            printf("Ingrese su correo electronico: ");
+            scanf("%[^\n]%*c", &clave);
 
-            printf("Ingrese la contraseña: ");
-            fgets(password, MAX_LEN, stdin);
+            printf("Ingrese la clave: ");
+            scanf("%[^\n]%*c", &password);
 
             login(clave, password, false, id, admin);
+            option = 0;
             break;
         case 3:
             signIn(false, id);
+            option = 0;
             break;
         case 4:
             viewAllBooks(false);
@@ -319,7 +314,7 @@ void guestMenu(int id, bool admin)
     } while (option != 0);
 }
 
-void userMenu(int id, bool admin)
+void userMenu(int &id, bool &admin)
 {
     int option = 0;
     do
@@ -348,7 +343,7 @@ void userMenu(int id, bool admin)
             break;
         case 2:
             viewAllBooks(false);
-            printf("\n¿Desea prestar un libro? (1: Sí, 0: No): ");
+            printf("\n¿Desea prestar un libro? (1: Si, 0: No): ");
             int borrowOption;
             scanf("%d", &borrowOption);
             if (borrowOption == 1)
@@ -374,13 +369,14 @@ void userMenu(int id, bool admin)
             break;
         case 7:
             id = 0;
-            printf("Sesión cerrada.\n");
+            printf("Sesion cerrada.\n");
             option = 0;
-            guestMenu(id, false);
+            guestMenu(id, admin);
             break;
         case 8:
             deleteUser(id);
             id = 0;
+            option = 0;
             break;
         case 0:
             printf("Saliendo del programa...\n");
@@ -395,7 +391,7 @@ void userMenu(int id, bool admin)
     } while (option != 0);
 }
 
-void adminMenu(int id)
+void adminMenu(int &id, bool &admin)
 {
     int option = 0;
     do
@@ -475,19 +471,21 @@ void adminMenu(int id)
         case 12:
             deleteAdmin(id);
             id = 0;
+            option = 0;
+            admin = false;
             break;
         case 13:
             id = 0;
             printf("Sesion cerrada.\n");
             option = 0;
-            guestMenu(id, false);
+            admin = false;
             break;
         case 0:
             printf("Saliendo del programa...\n");
             exit(0);
             break;
         default:
-            printf("Opción no válida. Intente de nuevo.\n");
+            printf("Opcion no válida. Intente de nuevo.\n");
         }
         getchar();
         system("cls");
@@ -497,12 +495,15 @@ void adminMenu(int id)
 
 void mainMenu(int &id, bool &admin)
 {
-    if (id == 0)
-        guestMenu(id, admin);
-    else if (!admin)
-        userMenu(id, admin);
-    else
-        adminMenu(id);
+    while (true)
+    {
+        if (id == 0)
+            guestMenu(id, admin);
+        else if (!admin)
+            userMenu(id, admin);
+        else
+            adminMenu(id, admin);
+    }
 }
 
 #endif
