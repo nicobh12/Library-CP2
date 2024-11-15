@@ -92,38 +92,89 @@ void assignFee(int userId)
     fclose(file);
 }
 
-void changeData(int id)
-{
-    FILE *file = openFileRPlus("usuarios.dat");
-    if (!file)
+void changePassword(user *currentUser) {
+    char currentPass[50], newPass[50];
+
+    printf("\nIngrese la clave actual: ");
+    scanf("%s", currentPass);
+
+    // Verifica la contraseña actual
+    if (strcmp(currentUser->pass, currentPass) != 0) {
+        printf("Clave actual incorrecta.\n");
         return;
+    }
+
+    printf("Ingrese la nueva clave: ");
+    scanf("%s", newPass);
+
+    printf("Confirme la nueva clave: ");
+    char confirmPass[50];
+    scanf("%s", confirmPass);
+
+    // Verifica la confirmación de la nueva contraseña
+    if (strcmp(newPass, confirmPass) == 0) {
+        strcpy(currentUser->pass, newPass);
+        printf("Clave cambiada con exito.\n");
+    } else {
+        printf("Las claves no coinciden.\n");
+    }
+}
+
+void changeData(int id) {
+    FILE *file = openFileRPlus("usuarios.dat");
+    if (!file) return;
 
     user currentUser;
     bool found = false;
 
-    while (fread(&currentUser, sizeof(user), 1, file) == 1)
-    {
-        if (currentUser.id == id)
-        {
+    while (fread(&currentUser, sizeof(user), 1, file) == 1) {
+        if (currentUser.id == id) {
             found = true;
-            printf("\nIngrese el nuevo nombre del usuario: ");
-            scanf("%s", currentUser.name);
+            int option;
+            printf("\nSeleccione el dato que desea cambiar:\n");
+            printf("1. Nombre\n");
+            printf("2. Apellido\n");
+            printf("3. Correo\n");
+            printf("4. Clave\n");
+            printf("Ingrese su opcion: ");
+            scanf("%d", &option);
 
-            printf("\nIngrese el nuevo apellido del usuario: ");
-            scanf("%s", currentUser.lname);
+            switch (option) {
+                case 1:
+                    printf("\nIngrese el nuevo nombre del usuario: ");
+                    scanf("%s", currentUser.name);
+                    break;
 
-            printf("\nIngrese el nuevo correo del usuario: ");
-            scanf("%s", currentUser.mail);
+                case 2:
+                    printf("\nIngrese el nuevo apellido del usuario: ");
+                    scanf("%s", currentUser.lname);
+                    break;
+
+                case 3:
+                    printf("\nIngrese el nuevo correo del usuario: ");
+                    scanf("%s", currentUser.mail);
+                    break;
+
+                case 4:
+                    changePassword(&currentUser);  // Llama a la función para cambiar la contraseña
+                    break;
+
+                default:
+                    printf("Opción no valida.\n");
+                    fclose(file);
+                    return;
+            }
 
             fseek(file, -static_cast<long>(sizeof(user)), SEEK_CUR);
             fwrite(&currentUser, sizeof(user), 1, file);
-            printf("%s", dataChanged); // Mensaje de confirmación
+            printf("%s", dataChanged);  // Mensaje de confirmación
             break;
         }
     }
 
-    if (!found)
+    if (!found) {
         printf("%s", userNotFound);
+    }
     fclose(file);
 }
 
@@ -142,8 +193,25 @@ void deleteUser(int id)
     {
         if (currentUser.id == id)
         {
-            found = true;
-            printf("%s", userDeletedSuccessfully);
+            // Verificar si el usuario tiene libros prestados o deuda
+            bool hasBorrowedBooks = (currentUser.borrowed1.b.title[0] != '\0') || (currentUser.borrowed2.b.title[0] != '\0');
+            if (currentUser.owed > 0)
+            {
+                printf("Error: No se puede eliminar el usuario. Tiene deuda pendiente de %d.\n", currentUser.owed);
+                found = true;
+                fwrite(&currentUser, sizeof(user), 1, tempFile);  // Mantener el usuario en el archivo temporal
+            }
+            else if (hasBorrowedBooks)
+            {
+                printf("Error: No se puede eliminar el usuario. Tiene libros prestados.\n");
+                found = true;
+                fwrite(&currentUser, sizeof(user), 1, tempFile);  // Mantener el usuario en el archivo temporal
+            }
+            else
+            {
+                found = true;
+                printf("%s", userDeletedSuccessfully);
+            }
         }
         else
         {

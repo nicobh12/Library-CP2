@@ -61,7 +61,7 @@ void viewBorrows(bool isAdmin)
     {
         if (currentBook.available == 0)
         {
-            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %d\nPrestados: %d\n\n",
+            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %s\nPrestados: %d\n\n",
                    currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g), currentBook.total);
         }
     }
@@ -80,11 +80,9 @@ void availableBooks(bool isAdmin)
     {
         if (currentBook.available > 0)
         {
-            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %d\nDisponibles: %d de %d\n\n",
+            printf("ID: %d\nTitulo: %s\nAutor: %s\nGenero: %s\nDisponibles: %d de %d\n\n",
                    currentBook.id, currentBook.b.title, currentBook.b.author, genreToString(currentBook.b.g),
                    currentBook.available, currentBook.total);
-
-        
         }
     }
 
@@ -109,7 +107,7 @@ void viewUserInfo(int id)
     {
         if (currentUser.id == id)
         {
-            printf("Información del Usuario:\n");
+            printf("Informacion del Usuario:\n");
             printf("Nombre: %s %s\n", currentUser.name, currentUser.lname);
             printf("Correo: %s\n", currentUser.mail);
             printf("ID: %d\n", currentUser.id);
@@ -117,12 +115,12 @@ void viewUserInfo(int id)
             // Add borrowed books' due dates
             if (currentUser.borrowed1.b.title[0] != '\0')
             {
-                printf("Libro 1: %s\n", currentUser.borrowed1.b.title);
+                printf("Libro 1: \nID: %d\n %s\n", currentUser.idb1, currentUser.borrowed1.b.title);
                 printf("Fecha de vencimiento: %d/%d/%d\n", currentUser.borrowed1.dueDate.day, currentUser.borrowed1.dueDate.month, currentUser.borrowed1.dueDate.year);
             }
             if (currentUser.borrowed2.b.title[0] != '\0')
             {
-                printf("Libro 2: %s\n", currentUser.borrowed2.b.title);
+                printf("Libro 2: \nID: %d\n %s\n", currentUser.idb2, currentUser.borrowed2.b.title);
                 printf("Fecha de vencimiento: %d/%d/%d\n", currentUser.borrowed2.dueDate.day, currentUser.borrowed2.dueDate.month, currentUser.borrowed2.dueDate.year);
             }
             break;
@@ -141,7 +139,7 @@ void viewAdminInfo(int adminId)
     {
         if (currentAdmin.adminId == adminId)
         {
-            printf("Información del Administrador:\n");
+            printf("Informacion del Administrador:\n");
             printf("Nombre: %s %s\n", currentAdmin.name, currentAdmin.lname);
             printf("ID Admin: %d\n", currentAdmin.adminId);
             break;

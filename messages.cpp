@@ -35,6 +35,8 @@ const char *bookAddedSuccessfully = "\nLibro agregado correctamente\n";
 const char *alreadyTwoBooksBorrowed = "\nTransaccion excede el limite de prestamos\n";
 const char *bookNotAvailable = "\nLibro no disponible\n";
 const char *bookBorrowedSuccessfully = "\nLibro prestado exitosamente";
+const char *bookReturnedSuccessfully = "\nLibro devuelto exitosamente";
+const char *bookNotBorrowed = "\nEl libro no se encuentra prestado\n";
 const char *bookNotFound = "\nLibro no encontrado";
 const char *bookDeletedSuccessfully = "\nLibro eliminado exitosamente\n";
 const char *bookModifiedSuccessfully = "\nLibro modificado exitosamente\n";
@@ -52,7 +54,7 @@ void listar(const char *elements)
 {
     printf("\nLista de %s\n", elements);
 }
-// Operación para abrir archivos
+// Operacion para abrir archivos
 FILE *openFileR(const char *filename)
 {
     FILE *file = fopen(filename, "rb"); // Open binary file
@@ -118,7 +120,7 @@ const char *genreToString(genre g)
     case POESIA:
         return "Poesia";
     case YOUNG_ADULT:
-        return "Young Adult"; // Lo dejo igual, ya que "Young Adult" es comúnmente usado en español también
+        return "Young Adult"; // Lo dejo igual, ya que "Young Adult" es comunmente usado en español tambien
     case OTRO:
         return "Otro";
     default:
@@ -126,7 +128,7 @@ const char *genreToString(genre g)
     }
 }
 
-// Menús
+// Menus
 
 void searchUserMenu() {
     char option;
@@ -134,7 +136,7 @@ void searchUserMenu() {
     int id;
 
     do {
-        // Mostrar el menú de opciones
+        // Mostrar el menu de opciones
         printf("\n==== Menu de Busqueda de Usuario ====\n");
         printf("1. Buscar por nombre\n");
         printf("2. Buscar por apellido\n");
@@ -170,11 +172,11 @@ void searchUserMenu() {
             getchar();  // Espera a que el usuario presione una tecla antes de continuar
             break;
 
-        case '0': // Volver al menú anterior
+        case '0': // Volver al menu anterior
             printf("Volviendo al menu anterior...\n");
             break;
 
-        default: // Opcion inválida
+        default: // Opcion invalida
             printf("Opcion no valida. Por favor, intente de nuevo.\n");
         }
 
@@ -182,6 +184,28 @@ void searchUserMenu() {
         system("cls");
 
     } while (option != '0');
+}
+
+void printGenresList()
+{
+    const char *genres[] = {
+        "1. Ficcion",
+        "2. No Ficcion",
+        "3. Misterio",
+        "4. Fantasia",
+        "5. Ciencia Ficcion",
+        "6. Biografia",
+        "7. Historia",
+        "8. Poesia",
+        "9. Young Adult",
+        "10. Otro"
+    };
+
+    int numGenres = sizeof(genres) / sizeof(genres[0]);
+    for (int i = 0; i < numGenres; i++)
+    {
+        printf("%s\n", genres[i]);
+    }
 }
 
 void searchBookMenu() {
@@ -227,9 +251,10 @@ void searchBookMenu() {
         break;
     }
     case 4: {
-        char genre[20];
-        printf("Ingrese el genero del libro: ");
-        scanf(" %[^\n]%*c", &genre);
+        int genre;
+        printGenresList();
+        printf("Ingrese el genero del libro: \n");
+        scanf("%d", &genre);
         searchByGenre(genre);
         getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
@@ -239,7 +264,7 @@ void searchBookMenu() {
         getchar();  // Espera a que el usuario presione una tecla antes de continuar
         break;
     case 0:
-        printf("Saliendo del menu de búsqueda de libros...\n");
+        printf("Saliendo del menu de busqueda de libros...\n");
         break;
     default:
         printf("Opcion no valida. Intente de nuevo.\n");
@@ -306,7 +331,7 @@ void guestMenu(int &id, bool &admin)
             exit(0);
             break;
         default:
-            printf("Opcion no válida. Intente de nuevo.\n");
+            printf("Opcion no valida. Intente de nuevo.\n");
         }
         getchar();
         system("cls");
@@ -359,7 +384,10 @@ void userMenu(int &id, bool &admin)
             break;
         case 4:
             int bookId;
-            returnBook(id, bookId); // Función para devolver un libro
+            viewUserInfo(id);
+            printf("\nIngrese el id del libro a devolver");
+            scanf("%d", &bookId);
+            returnBook(id, bookId); // Funcion para devolver un libro
             break;
         case 5:
             payUp(id);
@@ -383,7 +411,7 @@ void userMenu(int &id, bool &admin)
             exit(0);
             break;
         default:
-            printf("Opcion no válida. Intente de nuevo.\n");
+            printf("Opcion no valida. Intente de nuevo.\n");
         }
         getchar();
         system("cls");
@@ -485,7 +513,7 @@ void adminMenu(int &id, bool &admin)
             exit(0);
             break;
         default:
-            printf("Opcion no válida. Intente de nuevo.\n");
+            printf("Opcion no valida. Intente de nuevo.\n");
         }
         getchar();
         system("cls");

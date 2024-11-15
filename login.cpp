@@ -14,7 +14,7 @@ int loginUser(char *mail, char *pass)
 
     char decryptedPass[50];
 
-    int desplazamiento = pass[0] % 26; // Asegúrate de calcular el desplazamiento de la misma manera que en encrypt_password
+    int desplazamiento = pass[0] % 26; 
 
     while (fread(&currentUser, sizeof(user), 1, file) == 1)
     {
@@ -38,7 +38,7 @@ int loginAdmin(char *key, char *pass)
     admin currentAdmin;
 
     int adminId = atoi(key);
-    int desplazamiento = pass[0] % 26; // Consistencia en el cálculo del desplazamiento
+    int desplazamiento = pass[0] % 26; // Consistencia en el calculo del desplazamiento
 
     char decryptedPass[50];
 
@@ -167,7 +167,22 @@ int signInUser()
     user newUser = userNewData();
     newUser.id = generateUserId();
 
-    FILE *file = openFileA("usuarios.dat");
+    // Abrimos el archivo en modo lectura para verificar duplicados
+    FILE *file = openFileR("usuarios.dat");
+    user existingUser;
+    while (fread(&existingUser, sizeof(user), 1, file) == 1)
+    {
+        if (strcmp(existingUser.mail, newUser.mail) == 0)
+        {
+            printf("Error: El correo ingresado se encuentra registrado.\n");
+            fclose(file);
+            return 0; // Codigo de error indicando que el correo ya existe
+        }
+    }
+    fclose(file);
+
+    // Si no se encontro duplicado, se agrega el nuevo usuario
+    file = openFileA("usuarios.dat");
     fwrite(&newUser, sizeof(user), 1, file);
     fclose(file);
 

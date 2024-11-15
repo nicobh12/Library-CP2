@@ -54,6 +54,8 @@ typedef struct
     char mail[50];
     borrowB borrowed1;
     borrowB borrowed2;
+    int idb1;
+    int idb2;
     bool blocked;
     int owed;
     char pass[50];

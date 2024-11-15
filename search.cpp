@@ -73,11 +73,11 @@ void searchUser() {
     printf("Ingrese texto a buscar: ");
     scanf("%[^\n]%*c", search);
 
-    // Verificar si 'search' es un número
+    // Verificar si 'search' es un numero
     int id = atoi(search);
-    if (id != 0) {  // Es un número, por lo tanto, buscar por ID
+    if (id != 0) {  // Es un numero, por lo tanto, buscar por ID
         searchUserById(id);
-    } else {  // No es un número, buscar por nombre o apellido
+    } else {  // No es un numero, buscar por nombre o apellido
         searchUserByName(search);
         searchUserByLName(search);
     }
@@ -85,7 +85,7 @@ void searchUser() {
 
 void displayBook(const book& foundBook) {
     printf("Titulo: %s\nAutor: %s\nGenero: %d\nPublicacion: %d\n\n",
-           foundBook.title, foundBook.author, foundBook.g, foundBook.pYear);
+           foundBook.title, foundBook.author, genreToString(foundBook.g), foundBook.pYear);
 }
 
 void searchBookById(int id) {
@@ -103,7 +103,7 @@ void searchBookById(int id) {
             break;
         }
     }
-    if (!found) printf("No se encontró un libro con ID: %d\n", id);
+    if (!found) printf("No se encontro un libro con ID: %d\n", id);
 
     fclose(file);
 }
@@ -146,22 +146,23 @@ void searchBookByAuthor(const char* author) {
     fclose(file);
 }
 
-void searchByGenre(const char* g) {
+void searchByGenre(int genreNumber) {
     genre searchGenre;
 
-    if (strcasecmp(g, "FICCION") == 0) searchGenre = FICCION;
-    else if (strcasecmp(g, "NO_FICCION") == 0) searchGenre = NO_FICCION;
-    else if (strcasecmp(g, "MISTERIO") == 0) searchGenre = MISTERIO;
-    else if (strcasecmp(g, "FANTASIA") == 0) searchGenre = FANTASIA;
-    else if (strcasecmp(g, "CIENCIA_FICCION") == 0) searchGenre = CIENCIA_FICCION;
-    else if (strcasecmp(g, "BIOGRAFIA") == 0) searchGenre = BIOGRAFIA;
-    else if (strcasecmp(g, "HISTORIA") == 0) searchGenre = HISTORIA;
-    else if (strcasecmp(g, "POESIA") == 0) searchGenre = POESIA;
-    else if (strcasecmp(g, "YOUNG_ADULT") == 0) searchGenre = YOUNG_ADULT;
-    else if (strcasecmp(g, "OTRO") == 0) searchGenre = OTRO;
-    else {
-        printf("%s", genreNotFound);
-        return;
+    switch (genreNumber) {
+        case 1: searchGenre = FICCION; break;
+        case 2: searchGenre = NO_FICCION; break;
+        case 3: searchGenre = MISTERIO; break;
+        case 4: searchGenre = FANTASIA; break;
+        case 5: searchGenre = CIENCIA_FICCION; break;
+        case 6: searchGenre = BIOGRAFIA; break;
+        case 7: searchGenre = HISTORIA; break;
+        case 8: searchGenre = POESIA; break;
+        case 9: searchGenre = YOUNG_ADULT; break;
+        case 10: searchGenre = OTRO; break;
+        default:
+            printf("Genero no valido.\n");
+            return;
     }
 
     FILE *file = openFileR("books.dat");
@@ -170,15 +171,16 @@ void searchByGenre(const char* g) {
     infoBooks currentBook;
     bool found = false;
 
-    printf("Libros encontrados en el genero %s:\n", g);
+    printf("Libros encontrados en el genero seleccionado:\n");
     while (fread(&currentBook, sizeof(infoBooks), 1, file) == 1) {
         if (currentBook.b.g == searchGenre) {
-            printf("Titulo: %s\nAutor: %s\nPublicación: %d\n\n", currentBook.b.title, currentBook.b.author, currentBook.b.pYear);
+            printf("Titulo: %s\nAutor: %s\nPublicacion: %d\n\n",
+                   currentBook.b.title, currentBook.b.author, currentBook.b.pYear);
             found = true;
         }
     }
 
-    if (!found) printf("%s", noBooksInGenre);
+    if (!found) printf("%s\n", noBooksInGenre);
     fclose(file);
 }
 

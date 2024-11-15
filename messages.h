@@ -23,6 +23,8 @@ extern const char *bookAddedSuccessfully;
 extern const char *alreadyTwoBooksBorrowed;
 extern const char *bookNotAvailable;
 extern const char *bookBorrowedSuccessfully;
+extern const char *bookReturnedSuccessfully;
+extern const char *bookNotBorrowed;
 extern const char *bookNotFound;
 extern const char *bookDeletedSuccessfully;
 extern const char *bookModifiedSuccessfully;
@@ -45,5 +47,7 @@ FILE *openFileW(const char *filename);
 const char *genreToString(genre g);
 
 void mainMenu(int &id, bool &admin);
+
+void printGenresList();
 
 #endif // MESSAGES_H

@@ -15,7 +15,7 @@ void viewBorrows(bool isAdmin);
 void availableBooks(bool isAdmin);
 void viewAllBooks(bool isAdmin);
 
-// Funciones para mostrar información de usuarios y administradores
+// Funciones para mostrar informacion de usuarios y administradores
 void viewUserInfo(int id);
 void viewAdminInfo(int adminId);
 void viewAdmins();

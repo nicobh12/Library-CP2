@@ -3,11 +3,14 @@
 
 #include "structs.h"
 
-// Asigna la fecha de vencimiento de un libro (14 días desde la fecha actual)
+// Asigna la fecha de vencimiento de un libro (14 dias desde la fecha actual)
 void assignDueDate(Date &dueDate);
 
 // Agrega 'n' libros al archivo de libros
 void addBook(int n);
+
+//Devuelve libros prestados
+void returnBook(int userID, int bookId);
 
 // Permite a un usuario tomar prestado un libro
 void borrowBook(int userId, int bookId);

@@ -5,35 +5,35 @@
 #include <cstring>
 #include <cctype>
 
-// Función para encriptar un solo carácter
+// Funcion para encriptar un solo caracter
 char encriptar_char(char c, int desplazamiento)
 {
-    // Si no es alfabético, no lo movemos, simplemente lo devolvemos tal cual
+    // Si no es alfabetico, no lo movemos, simplemente lo devolvemos tal cual
     if (!isalpha(c))
         return c;
 
-    // Determinamos si es mayúscula o minúscula y el inicio correspondiente ('A' o 'a')
+    // Determinamos si es mayuscula o minuscula y el inicio correspondiente ('A' o 'a')
     char inicio = (isupper(c)) ? 'A' : 'a';
 
-    // Aplicamos el cifrado manteniendo el caso (Cifrado César)
+    // Aplicamos el cifrado manteniendo el caso (Cifrado Cesar)
     return inicio + ((c - inicio + desplazamiento) % 26);
 }
 
-// Función para desencriptar un solo carácter
+// Funcion para desencriptar un solo caracter
 char desencriptar_char(char c, int desplazamiento)
 {
-    // Si no es alfabético, no lo movemos, simplemente lo devolvemos tal cual
+    // Si no es alfabetico, no lo movemos, simplemente lo devolvemos tal cual
     if (!isalpha(c))
         return c;
 
-    // Determinamos si es mayúscula o minúscula y el inicio correspondiente ('A' o 'a')
+    // Determinamos si es mayuscula o minuscula y el inicio correspondiente ('A' o 'a')
     char inicio = (isupper(c)) ? 'A' : 'a';
 
     // Aplicamos el cifrado en sentido inverso (desplazamiento negativo)
-    return inicio + ((c - inicio - desplazamiento + 26) % 26); // +26 para evitar números negativos
+    return inicio + ((c - inicio - desplazamiento + 26) % 26); // +26 para evitar numeros negativos
 }
 
-// Función para encriptar toda la contraseña
+// Funcion para encriptar toda la contraseña
 void encrypt_password(const char *password, char *encrypted)
 {
     int desplazamiento = password[0] % 26;
@@ -48,7 +48,7 @@ void encrypt_password(const char *password, char *encrypted)
 
 void decrypt_password(const char *encrypted, char *decrypted, int desplazamiento)
 {
-    desplazamiento = desplazamiento % 26; // Asegurarse de que el desplazamiento esté dentro de 0-25
+    desplazamiento = desplazamiento % 26; // Asegurarse de que el desplazamiento este dentro de 0-25
     int len = strlen(encrypted);
 
     for (int i = 0; i < len; i++)
