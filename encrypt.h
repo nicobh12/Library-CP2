@@ -1,3 +1,5 @@
+/*Funciones para la encriptacion de las contraseñas de usuarios*/
+
 #ifndef ENCRYPT_H
 #define ENCRYPT_H
 

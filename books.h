@@ -1,3 +1,5 @@
+/*Operaciones relacionadas al manejo de libros por parte de administradores y usuarios*/
+
 #ifndef BOOKS_H
 #define BOOKS_H
 

@@ -1,3 +1,5 @@
+/*Structs usadas en el archivo en general*/
+
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
@@ -69,11 +71,5 @@ typedef struct
     int available;
     int id;
 } infoBooks;
-
-typedef struct
-{
-    char subject[40];
-    char body[500];
-} observaciones;
 
 #endif

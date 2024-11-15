@@ -1,3 +1,5 @@
+/*Funciones de visualizacion*/
+
 #ifndef VIEW_FUNCTIONS_H
 #define VIEW_FUNCTIONS_H
 

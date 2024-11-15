@@ -94,7 +94,7 @@ user userNewData()
     printf("\nIngrese la clave del usuario: \n");
     scanf("%s", pass);
 
-    encrypt_password(pass, newUser.pass); // Usamos el arreglo de long long para almacenar la contraseña encriptada
+    encrypt_password(pass, newUser.pass); 
 
     newUser.blocked = false;
     newUser.owed = 0;
@@ -119,8 +119,7 @@ admin adminNewData()
     scanf("%s", pass);
 
     /// Encriptamos la contraseña antes de almacenarla
-    long long encryptedPass[50];
-    encrypt_password(pass, newAdmin.pass); // Usamos el arreglo de long long para almacenar la contraseña encriptada
+    encrypt_password(pass, newAdmin.pass);
 
     return newAdmin;
 }

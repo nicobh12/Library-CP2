@@ -1,3 +1,5 @@
+/*Acciones generales relacionadas con ordenamiento, asignación de estados, borrado y modificaciones*/
+
 #ifndef ADMIN_USER_FUNCTIONS_H
 #define ADMIN_USER_FUNCTIONS_H
 

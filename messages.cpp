@@ -1,3 +1,5 @@
+/*Funciones generales relacionadas al manejo general de menús, archivos e interfaz de usuario*/
+
 #ifndef MESSAGES_H
 #define MESSAGES_H
 #define MAX_LEN 50

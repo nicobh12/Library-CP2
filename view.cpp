@@ -112,7 +112,7 @@ void viewUserInfo(int id)
             printf("Correo: %s\n", currentUser.mail);
             printf("ID: %d\n", currentUser.id);
             printf("Owed: %d\n", currentUser.owed);
-            // Add borrowed books' due dates
+
             if (currentUser.borrowed1.b.title[0] != '\0')
             {
                 printf("Libro 1: \nID: %d\n %s\n", currentUser.idb1, currentUser.borrowed1.b.title);
