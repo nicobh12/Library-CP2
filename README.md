@@ -18,13 +18,13 @@ Prestar hasta 2 libros al mismo tiempo.
 Si se retrasa la devolución de un libro, tendrán que pagar una multa por cada libro atrasado para desbloquearse.
 
 2. Reglas del Sistema
+
 Los usuarios que no devuelvan un libro a tiempo quedarán bloqueados hasta que:
 Devuelvan los libros atrasados.
-Paguen una multa por cada libro (monto definido por los administradores).
 Los administradores podrán desbloquear manualmente a los usuarios si lo consideran necesario.
 
 
-3. Estructura del Proyecto
+4. Estructura del Proyecto
 El sistema usará archivos para guardar la información, como:
 
 usuarios.txt: Información de los usuarios y su estado (activo o bloqueado).
